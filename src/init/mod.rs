@@ -6,10 +6,10 @@ mod database;
 mod env_logger;
 
 
-pub async fn init() -> app::CoreState {
+pub async fn init() -> app::CoreResult<app::CoreState> {
   env_logger::init();
 
-  let database = database::init().await;
+  let database = database::init().await?;
 
-  app::CoreState { database }
+  Ok(app::CoreState { database })
 }

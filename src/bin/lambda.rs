@@ -1,5 +1,6 @@
 use lambda_runtime as lambda;
 use serde_json::json;
+use lib::init;
 
 #[tokio::main]
 async fn main() -> Result<(), lambda::Error> {
@@ -11,6 +12,7 @@ async fn hello(
   _: serde_json::Value,
   _: lambda::Context,
 ) -> Result<serde_json::Value, lambda::Error> {
+  let _core_state = init::init().await;
   Ok(json!({ "message": "Hello!" }))
 }
 
