@@ -734,6 +734,7 @@ dependencies = [
  "env_logger",
  "lambda_http",
  "lambda_runtime",
+ "log",
  "sea-orm",
  "serde",
  "serde_json",

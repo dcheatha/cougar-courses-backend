@@ -1,10 +1,15 @@
 use crate::model::app;
 
-pub mod database;
+pub mod actix;
+
+mod database;
+mod env_logger;
 
 
-pub async fn init() -> app::State {
+pub async fn init() -> app::CoreState {
+  env_logger::init();
+
   let database = database::init().await;
 
-  app::State { database }
+  app::CoreState { database }
 }
