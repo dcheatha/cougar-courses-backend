@@ -1,7 +1,7 @@
 use actix_web::{App, HttpServer};
 use tokio::io;
 
-use lib::{init, routes};
+use lib::init;
 
 #[actix_web::main]
 async fn main() -> Result<(), io::Error> {
@@ -9,7 +9,7 @@ async fn main() -> Result<(), io::Error> {
 
   HttpServer::new(move || {
     App::new()
-      .configure(routes::mount)
+      // .configure(routes::mount)
       .app_data(actix_state.clone())
   })
   .bind("[::1]:8080")?
