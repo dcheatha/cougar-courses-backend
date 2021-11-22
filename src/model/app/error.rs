@@ -2,9 +2,11 @@ use log::error;
 use tokio::io;
 
 pub struct CoreError {
-  source: String,
-  message: String,
+  pub source: String,
+  pub message: String,
 }
+
+pub type CoreResult<T> = Result<T, CoreError>;
 
 impl CoreError {
   pub fn new(source: String, message: String) -> CoreError {
@@ -24,8 +26,6 @@ impl std::fmt::Display for CoreError {
   }
 }
 
-pub type CoreResult<T> = Result<T, CoreError>;
-
 impl From<anyhow::Error> for CoreError {
   fn from(error: anyhow::Error) -> CoreError {
     CoreError::new("Anyhow".to_string(), format!("{}", error))
@@ -38,10 +38,14 @@ impl From<sea_orm::DbErr> for CoreError {
   }
 }
 
-
 impl From<CoreError> for io::Error {
   fn from(error: CoreError) -> io::Error {
     io::Error::new(io::ErrorKind::Other, format!("{}", error))
   }
 }
 
+impl From<CoreError> for lambda_runtime::Error {
+  fn from(_error: CoreError) -> lambda_runtime::Error {
+    unimplemented!()
+  }
+}
