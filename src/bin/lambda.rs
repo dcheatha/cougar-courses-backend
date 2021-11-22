@@ -13,3 +13,20 @@ async fn hello(
 ) -> Result<serde_json::Value, lambda::Error> {
   Ok(json!({ "message": "Hello!" }))
 }
+
+// https://adevait.com/rust/deploying-rust-functions-on-aws-lambda
+#[cfg(test)]
+mod tests {
+  use super::*;
+
+  #[tokio::test]
+
+  async fn test_hello_handler() {
+    let context = lambda::Context::default();
+    let request = json!({});
+
+    let result = super::hello(request, context);
+    let result = result.await.ok().unwrap();
+    assert_eq!(result.get("message").unwrap(), "Hello!");
+  }
+}
