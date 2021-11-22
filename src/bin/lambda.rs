@@ -14,13 +14,11 @@ async fn hello(
   Ok(json!({ "message": "Hello!" }))
 }
 
-// https://adevait.com/rust/deploying-rust-functions-on-aws-lambda
 #[cfg(test)]
 mod tests {
   use super::*;
 
   #[tokio::test]
-
   async fn test_hello_handler() {
     let context = lambda::Context::default();
     let request = json!({});
