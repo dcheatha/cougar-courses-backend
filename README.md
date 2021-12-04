@@ -2,10 +2,18 @@
 
 ## Deployment
 
+### Verifying unit tests
+* Run `cargo test`
+
 ### Environment variables
 Most (really, all) uses of env vars should be found in the `src/init` directory.
-* `LISTEN_URL`: Http listen url if you're running a managed server
+* `LISTEN_URL`: Http listen url if you're running a managed server (Defaults to `localhost:8080`)
 * `DATABASE_URL`: Postgres database url (Defaults to `postgres://`, sometimes stringent environments may require `postgresql://` instead)
+
+### SQL Migrations
+* To install the SQLx migrator: `cargo install sqlx-cli --no-default-features --features postgres`
+* To run migrations: `sqlx mig run`
+* To add a new migration: `sqlx mig add name_of_migration`
 
 ### Managed server
 ```sh
