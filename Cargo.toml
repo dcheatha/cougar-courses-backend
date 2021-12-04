@@ -8,6 +8,7 @@ name = "lib"
 path = "src/lib.rs"
 
 [dependencies]
+actix-http = "2.2.1"
 actix-web = "3.3.2"
 anyhow = "1.0"
 async-graphql = "3.0"

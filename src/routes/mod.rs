@@ -12,33 +12,20 @@ async fn health() -> HttpResponse {
 #[cfg(test)]
 mod tests {
   use super::*;
+  use actix_http::Request;
   use actix_web::{
-    dev::{Body, ResponseBody},
+    dev::{Service, ServiceResponse},
     test, App,
   };
 
-  trait BodyTest {
-    fn as_str(&self) -> &str;
-  }
-
-  impl BodyTest for ResponseBody<Body> {
-    fn as_str(&self) -> &str {
-      match self {
-        ResponseBody::Body(ref b) => match b {
-          Body::Bytes(ref by) => std::str::from_utf8(&by).unwrap(),
-          _ => panic!(),
-        },
-        ResponseBody::Other(ref b) => match b {
-          Body::Bytes(ref by) => std::str::from_utf8(&by).unwrap(),
-          _ => panic!(),
-        },
-      }
-    }
+  async fn setup_server(
+  ) -> impl Service<Request = Request, Response = ServiceResponse, Error = actix_web::Error> {
+    test::init_service(App::new().configure(mount)).await
   }
 
   #[tokio::test]
   async fn test_health_is_ok() {
-    let mut server = test::init_service(App::new().configure(mount)).await;
+    let mut server = setup_server().await;
     let request = test::TestRequest::get().uri("/health").to_request();
     let data: serde_json::Value = test::read_response_json(&mut server, request).await;
 
