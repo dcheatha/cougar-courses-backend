@@ -6,7 +6,6 @@
 Most (really, all) uses of env vars should be found in the `src/init` directory.
 * `LISTEN_URL`: Http listen url if you're running a managed server
 * `DATABASE_URL`: Postgres database url (Defaults to `postgres://`, sometimes stringent environments may require `postgresql://` instead)
-``
 
 ### Managed server
 ```sh
