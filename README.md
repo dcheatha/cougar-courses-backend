@@ -21,7 +21,7 @@ Most (really, all) uses of env vars should be found in the `src/init` directory.
 #### Managed server
 ```sh
 # Build the actix web server
-cargo build --release --bin actix
+cargo build --release --bin managed
 # Run & manage it yourself
 ```
 
