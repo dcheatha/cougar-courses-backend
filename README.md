@@ -2,27 +2,30 @@
 
 ## Deployment
 
-### Verifying unit tests
+### Pre-deploy steps
+
+#### Verifying unit tests
 * Run `cargo test`
 
-### Environment variables
+#### Environment variables
 Most (really, all) uses of env vars should be found in the `src/init` directory.
 * `LISTEN_URL`: Http listen url if you're running a managed server (Defaults to `localhost:8080`)
 * `DATABASE_URL`: Postgres database url (Defaults to `postgres://`, sometimes stringent environments may require `postgresql://` instead)
 
-### SQL Migrations
+#### SQL Migrations
 * To install the SQLx migrator: `cargo install sqlx-cli --no-default-features --features postgres`
 * To run migrations: `sqlx mig run`
 * To add a new migration: `sqlx mig add name_of_migration`
 
-### Managed server
+### Deployment targets
+#### Managed server
 ```sh
 # Build the actix web server
 cargo build --release --bin actix
-# Manage it yourself
+# Run & manage it yourself
 ```
 
-### AWS Lambda
+#### AWS Lambda
 ```sh
 set $lambdaFunction cougarCoursesGraphQL
 
