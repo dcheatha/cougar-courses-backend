@@ -13,3 +13,17 @@ pub async fn init() -> app::CoreResult<app::CoreState> {
 
   Ok(app::CoreState { database })
 }
+
+
+#[cfg(test)]
+pub mod tests {
+  use super::*;
+
+  pub async fn init() -> app::CoreResult<app::CoreState> {
+    env_logger::tests::init();
+  
+    let database = database::tests::init().await?;
+  
+    Ok(app::CoreState { database })
+  }
+}
