@@ -1,6 +1,8 @@
 use async_graphql::InputObject;
+use sea_orm::{sea_query::Cond, Condition};
 
 use super::FilterOptions;
+use crate::model::db::CoursesColumn;
 
 #[derive(InputObject)]
 pub struct Course {
@@ -21,7 +23,17 @@ pub struct Course {
 }
 
 impl Course {
-  fn to() -> sea_orm::Condition {
-    unimplemented!()
+  fn to(self) -> sea_orm::Condition {
+    let mut condition = Cond::all();
+
+    if let Some(filter) = self.id {
+      condition = condition.add(filter.to(CoursesColumn::Id));
+    }
+
+    if let Some(filter) = self.year {
+      condition = condition.add(filter.to(CoursesColumn::Year));
+    }
+
+    condition
   }
 }
