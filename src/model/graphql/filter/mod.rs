@@ -1,9 +1,12 @@
 use async_graphql as gql;
-use sea_orm::{Condition, sea_query::Cond, ColumnTrait};
+use gql::InputObject;
+use sea_orm::{sea_query::Cond, ColumnTrait, Condition};
 
 pub mod course;
 
-#[derive(gql::InputObject)]
+pub type FilterOptions<T> = Option<Filter<T>>;
+
+#[derive(gql::InputObject, Default)]
 #[graphql(concrete(name = "FilterI16", params(i16)))]
 #[graphql(concrete(name = "FilterI32", params(i32)))]
 #[graphql(concrete(name = "FilterI64", params(f64)))]
@@ -14,10 +17,8 @@ pub struct Filter<T: gql::InputType> {
   lt: Option<T>,
 }
 
-pub type FilterOptions<T> = Option<Filter<T>>;
-
-impl<T: gql::InputType> Filter<T> 
-  where
+impl<T: gql::InputType> Filter<T>
+where
   sea_orm::Value: From<T>,
 {
   fn to<C: ColumnTrait>(self, column: C) -> Condition {

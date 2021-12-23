@@ -4,7 +4,7 @@ use sea_orm::{sea_query::Cond, Condition};
 use super::FilterOptions;
 use crate::model::db::CoursesColumn;
 
-#[derive(InputObject)]
+#[derive(InputObject, Default)]
 pub struct Course {
   id: FilterOptions<i32>,
   year: FilterOptions<i16>,
@@ -24,16 +24,64 @@ pub struct Course {
 
 impl Course {
   fn to(self) -> sea_orm::Condition {
-    let mut condition = Cond::all();
+    let mut c = Cond::all();
 
     if let Some(filter) = self.id {
-      condition = condition.add(filter.to(CoursesColumn::Id));
+      c = c.add(filter.to(CoursesColumn::Id));
     }
 
     if let Some(filter) = self.year {
-      condition = condition.add(filter.to(CoursesColumn::Year));
+      c = c.add(filter.to(CoursesColumn::Year));
     }
 
-    condition
+    if let Some(filter) = self.semester {
+      c = c.add(filter.to(CoursesColumn::Semester));
+    }
+
+    if let Some(filter) = self.campus {
+      c = c.add(filter.to(CoursesColumn::Campus));
+    }
+
+    if let Some(filter) = self.academic_group {
+      c = c.add(filter.to(CoursesColumn::AcademicGroup));
+    }
+
+    if let Some(filter) = self.subject {
+      c = c.add(filter.to(CoursesColumn::Subject));
+    }
+
+    if let Some(filter) = self.catalog_no {
+      c = c.add(filter.to(CoursesColumn::CatalogNo));
+    }
+
+    if let Some(filter) = self.section {
+      c = c.add(filter.to(CoursesColumn::Section));
+    }
+
+    if let Some(filter) = self.course_no {
+      c = c.add(filter.to(CoursesColumn::CourseNo));
+    }
+
+    if let Some(filter) = self.title {
+      c = c.add(filter.to(CoursesColumn::Title));
+    }
+
+    if let Some(filter) = self.instructor {
+      c = c.add(filter.to(CoursesColumn::Instructor));
+    }
+
+    if let Some(filter) = self.headcount {
+      c = c.add(filter.to(CoursesColumn::Headcount));
+    }
+
+    if let Some(filter) = self.dropped {
+      c = c.add(filter.to(CoursesColumn::Dropped));
+    }
+
+    if let Some(filter) = self.meeting_times {
+      c = c.add(filter.to(CoursesColumn::MeetingTimes));
+    }
+
+    c
   }
 }
