@@ -9,7 +9,6 @@ pub use error::CoreResult as CoreResult;
 
 use super::graphql::GraphQLSchema;
 
-
 pub struct CoreState {
   pub database: sea_orm::DatabaseConnection,
   pub graphql: GraphQLSchema,
