@@ -1,8 +1,11 @@
 use async_graphql as gql;
+use gql::{Schema, EmptyMutation, EmptySubscription};
 
 use super::{app, db};
 
 pub mod filter;
+
+pub type GraphQLSchema =  Schema<Query, EmptyMutation, EmptySubscription>;
 
 pub struct Query;
 
