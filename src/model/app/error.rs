@@ -1,7 +1,7 @@
 use log::error;
 use tokio::io;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct CoreError {
   pub source: String,
   pub message: String,

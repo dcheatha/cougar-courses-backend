@@ -1,5 +1,4 @@
 use async_graphql as gql;
-use gql::InputObject;
 use sea_orm::{sea_query::Cond, ColumnTrait, Condition};
 
 pub mod course;

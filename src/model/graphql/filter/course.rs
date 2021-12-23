@@ -1,5 +1,5 @@
 use async_graphql::InputObject;
-use sea_orm::{sea_query::Cond, Condition};
+use sea_orm::{sea_query::Cond};
 
 use super::FilterOptions;
 use crate::model::db::CoursesColumn;
