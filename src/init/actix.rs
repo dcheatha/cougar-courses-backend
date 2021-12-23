@@ -19,10 +19,7 @@ pub async fn init() -> app::CoreResult<web::Data<app::ActixState>> {
 pub mod tests {
   use super::*;
   use actix_http::Request;
-  use actix_web::{
-    dev::{Service, ServiceResponse},
-    test, App,
-  };
+  use actix_web::{dev::Service, test, App};
 
   use crate::{init, routes};
 
@@ -39,8 +36,7 @@ pub mod tests {
     }))
   }
 
-  pub async fn init_test_server(
-  ) -> impl Service<Request = Request, Response = ServiceResponse, Error = actix_web::Error> {
+  pub async fn init_test_server() -> impl Service<Request> {
     let test_state = tests::init().await.unwrap();
 
     test::init_service(

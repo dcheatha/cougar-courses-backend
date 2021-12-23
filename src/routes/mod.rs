@@ -1,6 +1,6 @@
 use actix_web::{http, web, HttpResponse};
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
-use async_graphql_actix_web as gql_web;
+use async_graphql_actix_web::{GraphQLRequest, GraphQLResponse};
 use serde_json::json;
 
 use crate::model::app;
@@ -16,10 +16,7 @@ async fn health() -> HttpResponse {
   HttpResponse::build(http::StatusCode::OK).json(json!({ "health": "ok" }))
 }
 
-async fn graphql(
-  state: web::Data<app::ActixState>,
-  request: gql_web::Request,
-) -> gql_web::Response {
+async fn graphql(state: web::Data<app::ActixState>, request: GraphQLRequest) -> GraphQLResponse {
   let request = request.into_inner().data(state.clone());
   let graphql = &state.core_state.graphql;
 
@@ -38,21 +35,17 @@ async fn playground() -> HttpResponse {
 mod tests {
   use super::*;
   use actix_http::Request;
-  use actix_web::{
-    dev::{Service, ServiceResponse},
-    test, App,
-  };
+  use actix_web::{dev::Service, test, App};
 
-  async fn setup_server(
-  ) -> impl Service<Request = Request, Response = ServiceResponse, Error = actix_web::Error> {
+  async fn setup_server() -> impl Service<Request, Error = actix_web::Error, Response = actix_web::dev::ServiceResponse<>> {
     test::init_service(App::new().configure(mount)).await
   }
 
   #[tokio::test]
   async fn test_health_is_ok() {
-    let mut server = setup_server().await;
+    let server = setup_server().await;
     let request = test::TestRequest::get().uri("/health").to_request();
-    let data: serde_json::Value = test::read_response_json(&mut server, request).await;
+    let data: serde_json::Value = test::call_and_read_body_json(&server, request).await;
 
     assert_eq!(data, json!({ "health": "ok" }));
   }
