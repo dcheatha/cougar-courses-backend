@@ -17,10 +17,8 @@ async fn health() -> HttpResponse {
 }
 
 async fn graphql(state: web::Data<app::ActixState>, request: GraphQLRequest) -> GraphQLResponse {
-  let request = request.into_inner().data(state.clone());
-  let graphql = &state.core_state.graphql;
-
-  graphql.execute(request).await.into()
+  let request = request.into_inner().data(state.core_state.clone());
+  state.core_state.graphql.execute(request).await.into()
 }
 
 async fn playground() -> HttpResponse {
@@ -37,7 +35,9 @@ mod tests {
   use actix_http::Request;
   use actix_web::{dev::Service, test, App};
 
-  async fn setup_server() -> impl Service<Request, Error = actix_web::Error, Response = actix_web::dev::ServiceResponse<>> {
+  async fn setup_server(
+  ) -> impl Service<Request, Error = actix_web::Error, Response = actix_web::dev::ServiceResponse>
+  {
     test::init_service(App::new().configure(mount)).await
   }
 
