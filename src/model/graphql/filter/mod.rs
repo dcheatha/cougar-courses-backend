@@ -12,6 +12,7 @@ pub type FilterOptions<T> = Option<Filter<T>>;
 #[graphql(concrete(name = "FilterString", params(String)))]
 pub struct Filter<T: gql::InputType> {
   eq: Option<Vec<T>>,
+  neq: Option<Vec<T>>,
   gt: Option<T>,
   gte: Option<T>,
   lt: Option<T>,
@@ -27,6 +28,10 @@ where
 
     if let Some(value) = self.eq {
       condition = condition.add(column.is_in(value));
+    }
+
+    if let Some(value) = self.neq {
+      condition = condition.add(Cond::all().add(column.is_in(value)).not());
     }
 
     if let Some(value) = self.gt {
