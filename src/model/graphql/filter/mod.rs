@@ -20,7 +20,7 @@ impl<T: gql::InputType> Filter<T>
 where
   sea_orm::Value: From<T>,
 {
-  fn to<C: ColumnTrait>(self, column: C) -> Condition {
+  pub fn to<C: ColumnTrait>(self, column: C) -> Condition {
     let mut condition = Cond::all();
 
     if let Some(value) = self.eq {

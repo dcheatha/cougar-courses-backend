@@ -1,5 +1,6 @@
 use async_graphql as gql;
 use gql::{Schema, EmptyMutation, EmptySubscription};
+use sea_orm::{EntityTrait, QueryFilter};
 
 use super::{app, db};
 
@@ -16,6 +17,13 @@ impl Query {
     ctx: &gql::Context<'_>,
     course_filter: filter::course::Course,
   ) -> app::CoreResult<Vec<db::CoursesModel>> {
-    Ok(vec![])
+    let core_state = ctx.data::<app::CoreState>().unwrap();
+
+    let courses = db::Courses::find()
+    .filter(course_filter.to())
+    .all(&core_state.database)
+    .await?;
+
+    Ok(courses)
   }
 }

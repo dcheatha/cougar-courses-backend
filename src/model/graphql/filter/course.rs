@@ -23,7 +23,7 @@ pub struct Course {
 }
 
 impl Course {
-  fn to(self) -> sea_orm::Condition {
+  pub fn to(self) -> sea_orm::Condition {
     let mut c = Cond::all();
 
     if let Some(filter) = self.id {
