@@ -15,7 +15,7 @@ impl Query {
   async fn get_courses(
     &self,
     ctx: &gql::Context<'_>,
-    course_filter: filter::course::Course,
+    course_filter: filter::course::CourseFilter,
   ) -> app::CoreResult<Vec<db::CoursesModel>> {
     let core_state = ctx.data::<Arc<app::CoreState>>().unwrap();
 

@@ -5,7 +5,7 @@ use super::FilterOptions;
 use crate::model::db::CoursesColumn;
 
 #[derive(InputObject, Default)]
-pub struct Course {
+pub struct CourseFilter {
   id: FilterOptions<i32>,
   year: FilterOptions<i16>,
   semester: FilterOptions<String>,
@@ -22,7 +22,7 @@ pub struct Course {
   meeting_times: FilterOptions<String>,
 }
 
-impl Course {
+impl CourseFilter {
   pub fn to(self) -> sea_orm::Condition {
     let mut c = Cond::all();
 
