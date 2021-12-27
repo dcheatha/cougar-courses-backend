@@ -1,6 +1,6 @@
-use std::sync::Arc;
 use async_graphql as gql;
-use sea_orm::{EntityTrait, ColumnTrait, QueryFilter, QueryOrder};
+use sea_orm::{ColumnTrait, EntityTrait, QueryFilter, QueryOrder};
+use std::sync::Arc;
 
 use crate::model::app::{self, CoreResult};
 use crate::model::db::{CoursesModel, Grades, GradesColumn, GradesModel};
@@ -14,8 +14,7 @@ impl CoursesModel {
       .filter(GradesColumn::CourseId.eq(self.id))
       .order_by_asc(GradesColumn::Grade)
       .all(&state.database)
-      .await
-      .unwrap();
+      .await?;
 
     Ok(grades)
   }
