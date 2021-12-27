@@ -1,5 +1,5 @@
-use sea_orm::entity::prelude::*;
 use async_graphql as gql;
+use sea_orm::entity::prelude::*;
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, gql::SimpleObject)]
 #[sea_orm(table_name = "courses")]

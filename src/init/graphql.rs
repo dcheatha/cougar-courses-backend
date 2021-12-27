@@ -1,12 +1,12 @@
 use async_graphql as gql;
-use gql::{Schema, EmptyMutation, EmptySubscription};
+use gql::{EmptyMutation, EmptySubscription, Schema};
 
-use crate::graphql::{Query, GraphQLSchema};
+use crate::graphql::{GraphQLSchema, Query};
 
 pub fn init() -> GraphQLSchema {
   Schema::build(Query, EmptyMutation, EmptySubscription)
-  .extension(gql::extensions::Analyzer)
-  .extension(gql::extensions::Logger)
-  .extension(gql::extensions::ApolloTracing)
-  .finish()
+    .extension(gql::extensions::Analyzer)
+    .extension(gql::extensions::Logger)
+    .extension(gql::extensions::ApolloTracing)
+    .finish()
 }

@@ -11,9 +11,7 @@ pub type CoreResult<T> = Result<T, CoreError>;
 
 impl CoreError {
   pub fn new(source: String, message: String) -> CoreError {
-    let error = CoreError {
-      source, message
-    };
+    let error = CoreError { source, message };
 
     error!("CoreError: {}", error);
 

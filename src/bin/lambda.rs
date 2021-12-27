@@ -1,6 +1,6 @@
 use lambda_runtime as lambda;
-use serde_json::json;
 use lib::{init, model::app};
+use serde_json::json;
 
 #[tokio::main]
 async fn main() -> Result<(), lambda::Error> {
@@ -23,7 +23,6 @@ async fn run_main(
 ) -> Result<serde_json::Value, lambda::Error> {
   Ok(json!({ "message": "Hello!" }))
 }
- 
 
 // #[cfg(test)]
 // mod tests {

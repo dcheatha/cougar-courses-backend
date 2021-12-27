@@ -1,4 +1,4 @@
-use actix_web::{App, HttpServer, web, middleware::Logger};
+use actix_web::{middleware::Logger, web, App, HttpServer};
 use tokio::io;
 
 use lib::{init, routes};

@@ -1,11 +1,11 @@
 mod actix;
 mod error;
 
-pub use actix::ActixState as ActixState;
-pub use actix::ActixConfigVars as ActixConfigVars;
+pub use actix::ActixConfigVars;
+pub use actix::ActixState;
 
-pub use error::CoreError as CoreError;
-pub use error::CoreResult as CoreResult;
+pub use error::CoreError;
+pub use error::CoreResult;
 
 use crate::graphql::GraphQLSchema;
 

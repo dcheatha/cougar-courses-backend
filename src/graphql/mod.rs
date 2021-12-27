@@ -1,13 +1,12 @@
 use std::sync::Arc;
 
 use async_graphql as gql;
-use gql::{Schema, EmptyMutation, EmptySubscription};
+use gql::{EmptyMutation, EmptySubscription, Schema};
 use sea_orm::{EntityTrait, QueryFilter};
 
+use crate::model::{app, db, graphql::filter};
 
-use crate::model::{app, graphql::filter, db};
-
-pub type GraphQLSchema =  Schema<Query, EmptyMutation, EmptySubscription>;
+pub type GraphQLSchema = Schema<Query, EmptyMutation, EmptySubscription>;
 
 pub struct Query;
 
@@ -21,9 +20,9 @@ impl Query {
     let core_state = ctx.data::<Arc<app::CoreState>>().unwrap();
 
     let courses = db::Courses::find()
-    .filter(course_filter.to())
-    .all(&core_state.database)
-    .await?;
+      .filter(course_filter.to())
+      .all(&core_state.database)
+      .await?;
 
     Ok(courses)
   }
