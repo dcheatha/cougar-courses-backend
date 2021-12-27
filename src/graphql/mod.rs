@@ -1,9 +1,9 @@
 use std::sync::Arc;
 
 use async_graphql as gql;
-use gql::{Json, Schema, EmptyMutation, EmptySubscription};
+use gql::{Schema, EmptyMutation, EmptySubscription};
 use sea_orm::{EntityTrait, QueryFilter};
-use serde_json::json;
+
 
 use crate::model::{app, graphql::filter, db};
 
