@@ -38,12 +38,12 @@ where
       condition = condition.add(column.gt(value));
     }
 
-    if let Some(value) = self.lt {
-      condition = condition.add(column.lt(value));
-    }
-
     if let Some(value) = self.gte {
       condition = condition.add(column.gte(value));
+    }
+
+    if let Some(value) = self.lt {
+      condition = condition.add(column.lt(value));
     }
 
     if let Some(value) = self.lte {

@@ -2,6 +2,8 @@ use async_graphql as gql;
 use sea_orm::entity::prelude::*;
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, gql::SimpleObject)]
+#[graphql(concrete(name = "Course", params()))]
+#[graphql(complex)]
 #[sea_orm(table_name = "courses")]
 pub struct Model {
   #[sea_orm(primary_key)]
