@@ -1,5 +1,17 @@
 # Cougar Courses Backend
 
+## First-time setup
+
+### Database
+Create the database and import all data from the PDF:
+```
+export DATABASE_URL=postgresql://some-sql-url
+sqlx database create
+sqlx mig run
+python3 import/convert_pdf_to_csv_data.py
+cargo run --release --bin import_csv_data
+```
+
 ## Deployment
 
 ### Pre-deploy steps

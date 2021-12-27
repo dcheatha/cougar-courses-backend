@@ -459,6 +459,8 @@ dependencies = [
  "async-graphql",
  "async-graphql-actix-web",
  "env_logger",
+ "futures",
+ "futures-util",
  "lambda_http",
  "lambda_runtime",
  "log",

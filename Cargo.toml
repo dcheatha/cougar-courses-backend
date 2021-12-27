@@ -14,6 +14,8 @@ anyhow = "1.0"
 async-graphql =  { version = "3.0", features = [ "apollo_tracing", "log" ] }
 async-graphql-actix-web = "3.0"
 env_logger = "0.9"
+futures = { version = "^0.3" }
+futures-util = { version = "^0.3" }
 lambda_http="0.4"
 lambda_runtime="0.4"
 log = "0.4"
