@@ -13,7 +13,9 @@ pub type FilterOptions<T> = Option<Filter<T>>;
 pub struct Filter<T: gql::InputType> {
   eq: Option<Vec<T>>,
   gt: Option<T>,
+  gte: Option<T>,
   lt: Option<T>,
+  lte: Option<T>,
 }
 
 impl<T: gql::InputType> Filter<T>
@@ -33,6 +35,14 @@ where
 
     if let Some(value) = self.lt {
       condition = condition.add(column.lt(value));
+    }
+
+    if let Some(value) = self.gte {
+      condition = condition.add(column.gte(value));
+    }
+
+    if let Some(value) = self.lte {
+      condition = condition.add(column.lte(value));
     }
 
     condition
