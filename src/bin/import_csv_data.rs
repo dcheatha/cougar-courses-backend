@@ -6,7 +6,7 @@ use std::fs::File;
 use std::io::{self, BufRead};
 
 #[derive(Serialize, Deserialize)]
-struct CourseRow {
+struct CourseRowCSVData {
   pub year: i16,
   pub semester: String,
   pub campus: String,
@@ -23,7 +23,7 @@ struct CourseRow {
   pub grades: Vec<(f64, i32)>,
 }
 
-async fn import_course(database: &DatabaseConnection, data: CourseRow) {
+async fn import_course(database: &DatabaseConnection, data: CourseRowCSVData) {
   let course = CoursesActiveModel {
     year: Set(data.year),
     semester: Set(data.semester),
@@ -66,7 +66,7 @@ async fn main() {
 
   for line in io::BufReader::new(file).lines() {
     let line = line.unwrap();
-    let data: CourseRow = serde_json::from_str(&line).unwrap();
+    let data: CourseRowCSVData = serde_json::from_str(&line).unwrap();
     import_course(&core_state.database, data).await;
   }
 }

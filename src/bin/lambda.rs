@@ -23,19 +23,3 @@ async fn run_main(
 ) -> Result<serde_json::Value, lambda::Error> {
   Ok(json!({ "message": "Hello!" }))
 }
-
-// #[cfg(test)]
-// mod tests {
-//   use super::*;
-
-//   #[tokio::test]
-//   async fn test_hello_handler() {
-//     let context = lambda::Context::default();
-//     let request = json!({});
-//     // let test_state = super::init::tests::init().unwrap();
-
-//     // let result = super::run_main(request, context, test_state);
-//     // let result = result.await.ok().unwrap();
-//     // assert_eq!(result.get("message").unwrap(), "Hello!");
-//   }
-// }
