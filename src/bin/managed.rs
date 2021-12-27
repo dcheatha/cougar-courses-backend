@@ -1,4 +1,4 @@
-use actix_web::{App, HttpServer, web};
+use actix_web::{App, HttpServer, web, middleware::Logger};
 use tokio::io;
 
 use lib::{init, routes};
@@ -13,6 +13,7 @@ async fn main() -> Result<(), io::Error> {
     App::new()
       .configure(routes::mount)
       .app_data(core_state.clone())
+      .wrap(Logger::new("%{r}a %r %s %bb %Dms"))
   })
   .bind(listen_url)?
   .run()

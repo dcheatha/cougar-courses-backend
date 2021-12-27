@@ -1,7 +1,7 @@
 use async_graphql as gql;
 use gql::{Schema, EmptyMutation, EmptySubscription};
 
-use crate::model::graphql::{Query, GraphQLSchema};
+use crate::graphql::{Query, GraphQLSchema};
 
 pub fn init() -> GraphQLSchema {
   Schema::build(Query, EmptyMutation, EmptySubscription)

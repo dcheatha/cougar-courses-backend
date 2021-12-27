@@ -7,7 +7,7 @@ pub use actix::ActixConfigVars as ActixConfigVars;
 pub use error::CoreError as CoreError;
 pub use error::CoreResult as CoreResult;
 
-use super::graphql::GraphQLSchema;
+use crate::graphql::GraphQLSchema;
 
 pub struct CoreState {
   pub database: sea_orm::DatabaseConnection,

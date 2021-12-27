@@ -1,5 +1,3 @@
-use std::sync::Arc;
-
 use actix_web::{http, web, HttpResponse};
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
 use async_graphql_actix_web::{GraphQLRequest, GraphQLResponse};
@@ -19,8 +17,9 @@ async fn health() -> HttpResponse {
 }
 
 async fn graphql(state: web::Data<app::CoreState>, request: GraphQLRequest) -> GraphQLResponse {
-  let request = request.into_inner().data(state.clone());
-  state.graphql.execute(request).await.into()
+  let graphql = state.graphql.clone();
+  let request = request.into_inner().data(state.into_inner());
+  graphql.execute(request).await.into()
 }
 
 async fn playground() -> HttpResponse {
