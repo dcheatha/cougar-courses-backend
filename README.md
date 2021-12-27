@@ -4,7 +4,7 @@
 
 ### Database
 Create the database and import all data from the PDF:
-```
+```sh
 export DATABASE_URL=postgresql://some-sql-url
 sqlx database create
 sqlx mig run
