@@ -19,7 +19,6 @@ impl Query {
     let core_state = ctx.data::<Arc<app::CoreState>>().unwrap();
 
     let courses = courses::Entity::find()
-      // .join(sea_orm::JoinType::LeftJoin, courses::Relation::Grades.def())
       .filter(course_filter.to())
       .all(&core_state.database)
       .await?;
