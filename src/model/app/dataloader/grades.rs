@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::sync::Arc;
 
 use async_graphql as gql;
 use gql::async_trait;
@@ -8,8 +9,8 @@ use sea_orm::sea_query::Cond;
 use crate::model::app;
 use crate::model::db::*;
 
-struct GradesDataLoader {
-  core_state: app::CoreState,
+pub struct GradesDataLoader {
+  pub database: Arc<sea_orm::DatabaseConnection>,
 }
 
 #[async_trait::async_trait]
@@ -22,7 +23,7 @@ impl Loader<i32> for GradesDataLoader {
 
     let grades = grades::Entity::find()
       .filter(filter)
-      .all(&self.core_state.database)
+      .all(&*self.database)
       .await?;
 
     let grades: HashMap<_, _> = grades.into_iter().map(|grade| (grade.id, grade)).collect();

@@ -20,7 +20,7 @@ impl Query {
 
     let courses = courses::Entity::find()
       .filter(course_filter.to())
-      .all(&core_state.database)
+      .all(&*core_state.database)
       .await?;
 
     Ok(courses)

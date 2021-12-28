@@ -13,7 +13,7 @@ impl courses::Model {
 
     let grades = self
       .find_related(grades::Entity)
-      .all(&state.database)
+      .all(&*state.database)
       .await?;
 
     Ok(grades)
