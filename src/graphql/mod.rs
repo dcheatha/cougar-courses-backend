@@ -2,9 +2,8 @@ use std::sync::Arc;
 
 use async_graphql as gql;
 use gql::{EmptyMutation, EmptySubscription, Schema};
-use sea_orm::{EntityTrait, QueryFilter};
 
-use crate::model::{app, db, graphql::filter};
+use crate::model::{app, db::*, graphql::filter};
 
 pub type GraphQLSchema = Schema<Query, EmptyMutation, EmptySubscription>;
 
@@ -16,10 +15,11 @@ impl Query {
     &self,
     ctx: &gql::Context<'_>,
     course_filter: filter::course::CourseFilter,
-  ) -> app::CoreResult<Vec<db::CoursesModel>> {
+  ) -> app::CoreResult<Vec<courses::Model>> {
     let core_state = ctx.data::<Arc<app::CoreState>>().unwrap();
 
-    let courses = db::Courses::find()
+    let courses = courses::Entity::find()
+      // .join(sea_orm::JoinType::LeftJoin, courses::Relation::Grades.def())
       .filter(course_filter.to())
       .all(&core_state.database)
       .await?;

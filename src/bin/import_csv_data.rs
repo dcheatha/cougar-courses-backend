@@ -1,5 +1,5 @@
 use lib::init;
-use lib::model::db::{CoursesActiveModel, GradesActiveModel};
+use lib::model::db::*;
 use sea_orm::{ActiveModelTrait, DatabaseConnection, Set};
 use serde::{Deserialize, Serialize};
 use std::fs::File;
@@ -24,7 +24,7 @@ struct CourseRowCSVData {
 }
 
 async fn import_course(database: &DatabaseConnection, data: CourseRowCSVData) {
-  let course = CoursesActiveModel {
+  let course = courses::ActiveModel {
     year: Set(data.year),
     semester: Set(data.semester),
     campus: Set(data.campus),
@@ -46,7 +46,7 @@ async fn import_course(database: &DatabaseConnection, data: CourseRowCSVData) {
   let mut grades = vec![];
 
   for (grade, headcount) in data.grades {
-    let grade = GradesActiveModel {
+    let grade = grades::ActiveModel {
       course_id: course.id.clone(),
       grade: Set(grade),
       headcount: Set(headcount),

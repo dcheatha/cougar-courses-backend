@@ -31,3 +31,15 @@ impl Related<super::courses::Entity> for Entity {
 }
 
 impl ActiveModelBehavior for ActiveModel {}
+
+// impl Linked for Model {
+//   type FromEntity = super::Courses;
+//   type ToEntity = Entity;
+
+//   fn link(&self) -> Vec<sea_orm::LinkDef> {
+//     vec![
+//       Relation::Courses.def().rev(),
+//       Relation::Grades.def(),
+//     ]
+//   }
+// }
