@@ -15,19 +15,27 @@ pub struct GradesDataLoader {
 
 #[async_trait::async_trait]
 impl Loader<i32> for GradesDataLoader {
-  type Value = grades::Model;
+  type Value = Vec<grades::Model>;
   type Error = app::CoreError;
 
   async fn load(&self, keys: &[i32]) -> Result<HashMap<i32, Self::Value>, Self::Error> {
-    let filter = Cond::all().add(grades::Column::Id.is_in(keys.to_owned()));
+    let filter = Cond::all().add(grades::Column::CourseId.is_in(keys.to_owned()));
 
     let grades = grades::Entity::find()
       .filter(filter)
       .all(&*self.database)
       .await?;
 
-    let grades: HashMap<_, _> = grades.into_iter().map(|grade| (grade.id, grade)).collect();
+    let grades_map: HashMap<i32, Self::Value> = HashMap::new();
 
-    Ok(grades)
+    for grade in grades {
+      if let Some(list) = grades_map.get_mut(&grade.course_id) {
+        list.push(grade);
+      } else {
+        grades_map.insert(grade.course_id, vec![grade]);
+      }
+    }
+
+    Ok(grades_map)
   }
 }
