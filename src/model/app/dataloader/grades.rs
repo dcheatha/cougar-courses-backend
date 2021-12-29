@@ -9,6 +9,7 @@ use sea_orm::sea_query::Cond;
 use crate::model::app;
 use crate::model::db::*;
 
+#[derive(Clone)]
 pub struct GradesDataLoader {
   pub database: Arc<sea_orm::DatabaseConnection>,
 }
@@ -26,7 +27,7 @@ impl Loader<i32> for GradesDataLoader {
       .all(&*self.database)
       .await?;
 
-    let grades_map: HashMap<i32, Self::Value> = HashMap::new();
+    let mut grades_map: HashMap<i32, Self::Value> = HashMap::new();
 
     for grade in grades {
       if let Some(list) = grades_map.get_mut(&grade.course_id) {

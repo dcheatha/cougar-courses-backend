@@ -11,13 +11,10 @@ impl courses::Model {
   async fn grades(&self, ctx: &gql::Context<'_>) -> CoreResult<Vec<grades::Model>> {
     let state = ctx.data::<Arc<app::CoreState>>().unwrap();
 
-    let grades = state.dataloader.grades.load_one(self.id);
-
-    let grades = self
-      .find_related(grades::Entity)
-      .all(&*state.database)
-      .await?;
-
-    Ok(grades)
+    if let Some(grades) = state.dataloader.grades.load_one(self.id).await? {
+      Ok(grades)
+    } else {
+      Ok(vec![])
+    }
   }
 }
