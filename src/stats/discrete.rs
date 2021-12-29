@@ -1,13 +1,13 @@
 use async_graphql as gql;
-use statrs::statistics::{Data, Distribution, OrderStatistics, Statistics};
+use statrs::statistics::*;
 
 pub struct DiscreteStats {
-  data: Vec<f64>,
+  data: Data<Vec<f64>>,
 }
 
 impl DiscreteStats {
   pub fn new(data: Vec<f64>) -> DiscreteStats {
-    DiscreteStats { data }
+    DiscreteStats { data: Data::new(data) }
   }
 }
 
@@ -18,30 +18,26 @@ impl DiscreteStats {
   }
 
   async fn min(&self) -> f64 {
-    Statistics::min(self.data.iter())
+    self.data.min()
   }
 
   async fn max(&self) -> f64 {
-    Statistics::max(self.data.iter())
+    self.data.max()
   }
 
-  async fn mean(&self) -> f64 {
-    Statistics::mean(self.data.iter())
+  async fn mean(&self) -> Option<f64> {
+    self.data.mean()
   }
 
-  async fn std_dev(&self) -> f64 {
-    Statistics::std_dev(self.data.iter())
+  async fn median(&self) -> f64 {
+    self.data.median()
   }
 
-  async fn population_std_dev(&self) -> f64 {
-    Statistics::population_std_dev(self.data.iter())
+  async fn std_dev(&self) -> Option<f64> {
+    self.data.std_dev()
   }
 
-  async fn variance(&self) -> f64 {
-    Statistics::variance(self.data.iter())
-  }
-
-  async fn population_variance(&self) -> f64 {
-    Statistics::population_variance(self.data.iter())
+  async fn variance(&self) -> Option<f64> {
+    self.data.variance()
   }
 }
