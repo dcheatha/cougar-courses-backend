@@ -40,4 +40,12 @@ impl DiscreteStats {
   async fn variance(&self) -> Option<f64> {
     self.data.variance()
   }
+
+  async fn lower_quartile(&self) -> f64 {
+    self.data.clone().lower_quartile()
+  }
+
+  async fn upper_quartile(&self) -> f64 {
+    self.data.clone().upper_quartile()
+  }
 }
