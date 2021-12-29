@@ -1,5 +1,3 @@
-
-
 use crate::model::app;
 
 pub mod actix;

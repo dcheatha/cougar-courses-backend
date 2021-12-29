@@ -7,7 +7,9 @@ pub struct DiscreteStats {
 
 impl DiscreteStats {
   pub fn new(data: Vec<f64>) -> DiscreteStats {
-    DiscreteStats { data: Data::new(data) }
+    DiscreteStats {
+      data: Data::new(data),
+    }
   }
 }
 

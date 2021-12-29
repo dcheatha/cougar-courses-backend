@@ -3,7 +3,10 @@ use std::sync::Arc;
 use async_graphql as gql;
 use gql::{EmptyMutation, EmptySubscription, Schema};
 
-use crate::{model::{app, db::*, graphql::filter}, stats::aggregate::AggregateCourseStats};
+use crate::{
+  model::{app, db::*, graphql::filter},
+  stats::aggregate::AggregateCourseStats,
+};
 
 pub type GraphQLSchema = Schema<Query, EmptyMutation, EmptySubscription>;
 
