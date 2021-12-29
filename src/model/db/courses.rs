@@ -7,6 +7,7 @@ use sea_orm::entity::prelude::*;
 #[sea_orm(table_name = "courses")]
 pub struct Model {
   #[sea_orm(primary_key)]
+  #[graphql(skip)]
   pub id: i32,
   pub year: i16,
   #[sea_orm(column_type = "Text")]
