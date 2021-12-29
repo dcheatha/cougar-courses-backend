@@ -41,6 +41,6 @@ impl Query {
       .all(&*core_state.database)
       .await?;
 
-    Ok(AggregateCourseStats::new(courses))
+    Ok(AggregateCourseStats::new(core_state.clone(), courses))
   }
 }

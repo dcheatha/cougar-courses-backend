@@ -1,15 +1,18 @@
-use crate::model::db;
+use std::{collections::HashMap, sync::Arc};
+
+use crate::model::{app, db};
 use async_graphql as gql;
 
 use super::{CategoricalStats, DiscreteStats};
 
 pub struct AggregateCourseStats {
+  state: Arc<app::CoreState>,
   data: Vec<db::courses::Model>,
 }
 
 impl AggregateCourseStats {
-  pub fn new(data: Vec<db::courses::Model>) -> AggregateCourseStats {
-    AggregateCourseStats { data }
+  pub fn new(state: Arc<app::CoreState>, data: Vec<db::courses::Model>) -> AggregateCourseStats {
+    AggregateCourseStats { data, state }
   }
 }
 
@@ -95,5 +98,24 @@ impl AggregateCourseStats {
 
   async fn meeting_times(&self) -> CategoricalStats<String> {
     build_optional_categorical_stats!(self.data, String, meeting_times)
+  }
+
+  async fn grades(&self) -> DiscreteStats {
+    let ids = self.data.iter().map(|course| course.id);
+
+    let grades = self
+      .state
+      .dataloader
+      .grades
+      .load_many(ids)
+      .await
+      .unwrap_or_default()
+      .values()
+      .flatten()
+      .map(|grade| vec![grade.grade; grade.headcount as usize])
+      .flatten()
+      .collect();
+
+    DiscreteStats::new(grades)
   }
 }
