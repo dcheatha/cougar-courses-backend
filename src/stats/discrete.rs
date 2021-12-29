@@ -17,6 +17,10 @@ impl DiscreteStats {
     self.data.len()
   }
 
+  async fn sum(&self) -> f64 {
+    self.data.iter().sum()
+  }
+
   async fn min(&self) -> f64 {
     self.data.min()
   }
