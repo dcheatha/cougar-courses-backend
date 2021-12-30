@@ -54,4 +54,28 @@ impl DiscreteStats {
   async fn upper_quartile(&self) -> f64 {
     self.data.clone().upper_quartile()
   }
+
+  async fn count_eq(&self, value: f64) -> usize {
+    self.data.iter().filter(|datum| (**datum - value).abs() < 0.01).count()
+  }
+
+  async fn count_neq(&self, value: f64) -> usize {
+    self.data.iter().filter(|datum| (**datum - value).abs() > 0.01).count()
+  }
+
+  async fn count_gt(&self, value: f64) -> usize {
+    self.data.iter().filter(|datum| **datum > value).count()
+  }
+
+  async fn count_gte(&self, value: f64) -> usize {
+    self.data.iter().filter(|datum| **datum >= value).count()
+  }
+
+  async fn count_lt(&self, value: f64) -> usize {
+    self.data.iter().filter(|datum| **datum < value).count()
+  }
+
+  async fn count_lte(&self, value: f64) -> usize {
+    self.data.iter().filter(|datum| **datum <= value).count()
+  }
 }
