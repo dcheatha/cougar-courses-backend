@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use async_graphql as gql;
 use statrs::statistics::*;
 
@@ -56,11 +58,19 @@ impl DiscreteStats {
   }
 
   async fn count_eq(&self, value: f64) -> usize {
-    self.data.iter().filter(|datum| (**datum - value).abs() < 0.01).count()
+    self
+      .data
+      .iter()
+      .filter(|datum| (**datum - value).abs() < 0.01)
+      .count()
   }
 
   async fn count_neq(&self, value: f64) -> usize {
-    self.data.iter().filter(|datum| (**datum - value).abs() > 0.01).count()
+    self
+      .data
+      .iter()
+      .filter(|datum| (**datum - value).abs() > 0.01)
+      .count()
   }
 
   async fn count_gt(&self, value: f64) -> usize {
@@ -78,4 +88,35 @@ impl DiscreteStats {
   async fn count_lte(&self, value: f64) -> usize {
     self.data.iter().filter(|datum| **datum <= value).count()
   }
+
+  async fn bin(&self) -> Vec<BinnedFloat> {
+    let mut bins: HashMap<String, BinnedFloat> = HashMap::new();
+    let total_frequency = self.data.len();
+
+    for value in self.data.iter() {
+      if let Some(bin) = bins.get_mut(&*value.to_string()) {
+        bin.frequency += 1;
+        bin.percent = bin.frequency as f64 / total_frequency as f64;
+        continue;
+      } else {
+        bins.insert(
+          value.to_string(),
+          BinnedFloat {
+            value: *value,
+            frequency: 1,
+            percent: 1.0 / total_frequency as f64,
+          },
+        );
+      }
+    }
+
+    bins.into_iter().map(|(_, value)| value).collect()
+  }
+}
+
+#[derive(gql::SimpleObject)]
+pub struct BinnedFloat {
+  pub value: f64,
+  pub frequency: usize,
+  pub percent: f64,
 }
