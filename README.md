@@ -1,4 +1,7 @@
 # Cougar Courses Backend
+This is the backend that powers https://cougarcourses.app. 
+
+If you're a WSU student, faculty, or alumni, feel free to consume this api! Attribution is appreciated.
 
 ## First-time setup
 
