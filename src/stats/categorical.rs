@@ -48,6 +48,10 @@ where
     self.data.iter().unique().count()
   }
 
+  async fn first(&self) -> Option<T> {
+    self.data.clone().into_iter().next()
+  }
+
   async fn bin(&self) -> Vec<BinnedItem<T>> {
     let mut map: HashMap<T, usize> = HashMap::new();
 
